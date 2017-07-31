@@ -1,0 +1,100 @@
+for i in range(len(run)):
+            if 'fi' not in run[i] and 'done' not in run[i]:
+                if '=' in run[i]:
+                    mid = run[i].split('=')
+                    mid[0] = var[mid[0]]
+                    if '!' in mid[1]:
+                        mid2 = mid[1][1:]
+                        mid[1] = '!' + var[mid2]
+                    else:
+                        mid[1] = var[mid[1]]
+                    run[i] = mid[0] + '=' + mid[1]
+                elif 'if' in run[i]:
+                    mid = run[i][2:]
+                    pos_or = []
+                    pos_and = []
+                    for i in range(len(mid)):
+                        if mid[i] == '|':
+                            pos_or.append(i)
+                        elif mid[i] == '&':
+                            pos_and.append(i)
+                    print(pos_or,pos_and)
+                    for i in range(len(pos_or)):
+                        if mid[pos_or[i-1]] != ')':
+                            j = i - 1
+                            while mid[j] != '(' and mid[j] != ')':
+                                j = j - 1
+                            print(mid[j+1:i])
+                            var_a = var[mid[j+1:i]]
+                            pre = mid[:j+1]
+                            post = mid[i:]
+                            mid = pre + var_a + post
+                        elif mid[pos_or[i+1]] != '(':
+                            j = j + 1
+                            while mid[j] != ')' and mid[j] != '(':
+                                j = j + 1
+                            var_a = var[mid[i+1:j+1]]
+                            pre = mid[:i+1]
+                            post = mid[j+1:]
+                            mid = pre + var_a + post
+                    for i in range(len(pos_and)):
+                        if mid[pos_and[i-1]] != ')':
+                            j = i - 1
+                            while mid[j] != '(' and mid[j] != ')':
+                                j = j - 1
+                            var_a = var[mid[j+1:i]]
+                            pre = mid[:j+1]
+                            post = mid[i:]
+                            mid = pre + var_a + post
+                        elif mid[pos_and[i+1]] != '(':
+                            j = j + 1
+                            while mid[j] != ')' and mid[j] != '(':
+                                j = j + 1
+                            var_a = var[mid[i+1:j+1]]
+                            pre = mid[:i+1]
+                            post = mid[j+1:]
+                            mid = pre + var_a + post
+                elif 'while' in run[i]:
+                    mid = run[i][5:]
+                    pos_or = []
+                    pos_and = []
+                    for i in range(len(mid)):
+                        if mid[i] == '|':
+                            pos_or.append(i)
+                        elif mid[i] == '&':
+                            pos_and.append(i)
+                    for i in range(len(pos_or)):
+                        if mid[pos_or[i-1]] != ')':
+                            j = i - 1
+                            while mid[j] != '(' and mid[j] != ')':
+                                j = j - 1
+                            var_a = var[mid[j+1:i]]
+                            pre = mid[:j+1]
+                            post = mid[i:]
+                            mid = pre + var_a + post
+                        elif mid[pos_or[i+1]] != '(':
+                            j = j + 1
+                            while mid[j] != ')' and mid[j] != '(':
+                                j = j + 1
+                            var_a = var[mid[i+1:j+1]]
+                            pre = mid[:i+1]
+                            post = mid[j+1:]
+                            mid = pre + var_a + post
+                    for i in range(len(pos_and)):
+                        if mid[pos_and[i-1]] != ')':
+                            j = i - 1
+                            while mid[j] != '(' and mid[j] != ')':
+                                j = j - 1
+                            var_a = var[mid[j+1:i]]
+                            pre = mid[:j+1]
+                            post = mid[i:]
+                            mid = pre + var_a + post
+                        elif mid[pos_and[i+1]] != '(':
+                            j = j + 1
+                            while mid[j] != ')' and mid[j] != '(':
+                                j = j + 1
+                            var_a = var[mid[i+1:j+1]]
+                            pre = mid[:i+1]
+                            post = mid[j+1:]
+                            mid = pre + var_a + post
+        print(run)
